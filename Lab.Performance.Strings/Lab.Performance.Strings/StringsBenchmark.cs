@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 using System;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Lab.Performance.Strings
 {
     [Orderer(BenchmarkDotNet.Order.SummaryOrderPolicy.FastestToSlowest)]
     [MemoryDiagnoser]
-    [SimpleJob(targetCount: 50)]
+    [SimpleJob(RunStrategy.ColdStart, launchCount: 5, targetCount: 100)]
     public class StringsBenchmark
     {
         private readonly StringBuilder _stringBuilder = new StringBuilder();
@@ -41,11 +42,11 @@ namespace Lab.Performance.Strings
         {
             _stringBuilder.Clear();
             return _stringBuilder.Append(scheme)
-                          .Append("://")
-                          .Append(host)
-                          .Append(path)
-                          .Append(queryString)
-                          .ToString();
+                                 .Append("://")
+                                 .Append(host)
+                                 .Append(path)
+                                 .Append(queryString)
+                                 .ToString();
         }
     }
 }
